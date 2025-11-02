@@ -53,11 +53,8 @@ def _parse_price_int(value):
     # Strip regular spaces (assume thousands sep)
     s = s.replace(" ", "")
 
-    # Heuristic:
-    # If both ',' and '.' appear, treat the *last* symbol among them as decimal sep
-    # and remove the other occurrences as thousands seps.
+    # If both ',' and '.' appear, treat the *last* of them as decimal sep
     if "," in s and "." in s:
-        # Find the last occurrence of either
         last_idx = max(s.rfind(","), s.rfind("."))
         dec_char = s[last_idx]
         other = "," if dec_char == "." else "."
@@ -66,20 +63,14 @@ def _parse_price_int(value):
         s = s_clean
     else:
         # Only one of ',' or '.' present:
-        # If only ',' present -> assume it's decimal (EU style) and convert to '.'
         if "," in s and "." not in s:
             s = s.replace(",", ".")
-        # If only '.' present, leave as is
-        # If neither present, it's an integer already.
 
-    # Now remove any lingering thousands separators just in case (e.g., "1.234.567" -> "1234567")
-    # But be careful not to strip the only decimal point.
+    # If there are multiple decimal points, keep the last as decimal; earlier are thousands
     if s.count(".") > 1:
-        # keep last '.' as decimal, remove earlier ones
         parts = s.split(".")
         s = "".join(parts[:-1]) + "." + parts[-1]
 
-    # Final parse
     try:
         val = float(s)
     except Exception:
@@ -170,10 +161,10 @@ class PriceGUI(tk.Tk):
         self.resource_cb = ttk.Combobox(ctrl, textvariable=self.resource_var, state="readonly", width=40)
         self.resource_cb.pack(side=tk.LEFT, padx=(0, 12))
 
-        # Unit dropdown (dynamic)
+        # Unit dropdown (dynamic, includes "All")
         ttk.Label(ctrl, text="Unit:").pack(side=tk.LEFT, padx=(0, 6))
         self.unit_var = tk.StringVar()
-        self.unit_cb = ttk.Combobox(ctrl, textvariable=self.unit_var, state="readonly", width=8)
+        self.unit_cb = ttk.Combobox(ctrl, textvariable=self.unit_var, state="readonly", width=10)
         self.unit_cb.pack(side=tk.LEFT, padx=(0, 12))
 
         # Buttons
@@ -215,20 +206,35 @@ class PriceGUI(tk.Tk):
         else:
             self.resource_cb.set("")
 
-    def update_units(self):
-        """Populate unit options based on selected resource."""
-        if self.long_df.empty:
-            self.unit_cb["values"] = []
-            self.unit_cb.set("")
-            return
-        resource = self.resource_var.get()
+    def _units_for_resource(self, resource: str):
+        if self.long_df.empty or not resource:
+            return []
         units = sorted(
             self.long_df.loc[self.long_df["BaseResource"] == resource, "Unit"].unique(),
             key=lambda x: float(x) if re.fullmatch(r"\d+(\.\d+)?", str(x)) else float("inf"),
         )
-        self.unit_cb["values"] = units
+        # ensure numeric-only units (regex earlier already yields digits), keep as strings
+        return [u for u in units if re.fullmatch(r"\d+(\.\d+)?", str(u))]
+
+    def update_units(self):
+        """Populate unit options based on selected resource, including 'All'."""
+        if self.long_df.empty:
+            self.unit_cb["values"] = []
+            self.unit_cb.set("")
+            return
+
+        resource = self.resource_var.get()
+        units = self._units_for_resource(resource)
+
+        all_plus_units = ["All"] + units if units else ["All"]
+        self.unit_cb["values"] = all_plus_units
+
         current = self.unit_var.get()
-        self.unit_cb.set(current if current in units else (units[0] if units else ""))
+        if current in all_plus_units:
+            self.unit_cb.set(current)
+        else:
+            # default to "All" to show the comparison by default
+            self.unit_cb.set("All")
 
     def refresh_csv(self):
         try:
@@ -283,37 +289,77 @@ class PriceGUI(tk.Tk):
             resource = self.resource_cb["values"][0]
             self.resource_cb.set(resource)
 
-        unit = self.unit_var.get()
-        if not unit and self.unit_cb["values"]:
-            unit = self.unit_cb["values"][0]
-            self.unit_cb.set(unit)
+        unit_choice = self.unit_var.get()
+        units_available = self._units_for_resource(resource)
 
-        dff = self.long_df[
-            (self.long_df["BaseResource"] == resource) & (self.long_df["Unit"] == unit)
-        ].copy().sort_values("Date")
+        # Helper to filter and clean a unit's dataframe
+        def df_for_unit(u: str) -> pd.DataFrame:
+            dff = self.long_df[
+                (self.long_df["BaseResource"] == resource) & (self.long_df["Unit"] == u)
+            ].copy().sort_values("Date")
+            return dff.dropna(subset=["Price"])
 
-        # Keep only rows with a valid integer Price (skip missing)
-        dff_valid = dff.dropna(subset=["Price"])
+        if unit_choice == "All":
+            # Plot each unit normalized per 1 unit (Price / unit_qty)
+            any_plotted = False
+            status_parts = []
+            for u in units_available:
+                dff_u = df_for_unit(u)
+                if dff_u.empty:
+                    continue
+                try:
+                    uq = float(u)
+                    if uq <= 0:
+                        continue
+                except Exception:
+                    continue
 
-        if dff_valid.empty:
-            self.ax.set_title(f"No data for: {resource} (unit {unit})")
-            self.ax.set_xlabel("Time")
+                y = dff_u["Price"] / uq  # per-1 normalization (may be fractional)
+                self.ax.plot(dff_u["Date"], y, linewidth=2, marker="o", label=f"unit {u} (per 1)")
+                any_plotted = True
+                # last known per-unit value
+                status_parts.append(f"{u}: {y.iloc[-1]:g}")
+
+            if not any_plotted:
+                self.ax.set_title(f"No data for: {resource}")
+                self.ax.set_xlabel("Time")
+                self.ax.set_ylabel("Price (per 1)")
+                self.status.set("No data")
+                self.canvas.draw_idle()
+                return
+
+            self.ax.set_title(f"{resource} � All units (per 1)")
+            self.ax.set_xlabel("Timestamp")
+            self.ax.set_ylabel("Price (per 1 unit)")
+            self.ax.grid(True, linestyle="--", alpha=0.3)
+            self.ax.legend(loc="best")
+
+            self.status.set("Last per-1 ? " + " | ".join(status_parts))
+
+        else:
+            # Single unit view (raw integer prices; missing skipped)
+            dff = self.long_df[
+                (self.long_df["BaseResource"] == resource) & (self.long_df["Unit"] == unit_choice)
+            ].copy().sort_values("Date")
+
+            dff_valid = dff.dropna(subset=["Price"])
+            if dff_valid.empty:
+                self.ax.set_title(f"No data for: {resource} (unit {unit_choice})")
+                self.ax.set_xlabel("Time")
+                self.ax.set_ylabel("Price")
+                self.status.set("No data")
+                self.canvas.draw_idle()
+                return
+
+            self.ax.plot(dff_valid["Date"], dff_valid["Price"], linewidth=2, marker="o")
+            self.ax.set_title(f"{resource} � unit {unit_choice}")
+            self.ax.set_xlabel("Timestamp")
             self.ax.set_ylabel("Price")
-            self.status.set("No data")
-            self.canvas.draw_idle()
-            return
+            self.ax.grid(True, linestyle="--", alpha=0.3)
 
-        # Plot line with markers (missing points removed ? line ignores gaps)
-        self.ax.plot(dff_valid["Date"], dff_valid["Price"], linewidth=2, marker="o")
-        self.ax.set_title(f"{resource} � unit {unit}")
-        self.ax.set_xlabel("Timestamp")
-        self.ax.set_ylabel("Price")
-        self.ax.grid(True, linestyle="--", alpha=0.3)
-
-        # Last point in status
-        last_ts = dff_valid["Date"].iloc[-1]
-        last_price = int(dff_valid["Price"].iloc[-1])
-        self.status.set(f"Last: {last_ts} ? {last_price}")
+            last_ts = dff_valid["Date"].iloc[-1]
+            last_price = int(dff_valid["Price"].iloc[-1])
+            self.status.set(f"Last: {last_ts} ? {last_price}")
 
         self.fig.tight_layout()
         self.canvas.draw_idle()

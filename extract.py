@@ -4,6 +4,238 @@ from PIL import ImageGrab
 import os
 from datetime import datetime
 
+t1 = 0.1
+t2 = 0.2
+t5 = 0.5
+t10 = 1.0
+t20 = 2.0
+
+def zapi_milice_to_hdv():
+    # TP milice brak
+    pyautogui.moveTo(1472, 968)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t5)
+    pyautogui.press('q')
+    time.sleep(t20)
+    # Click zapi
+    pyautogui.moveTo(1573, 208)
+    time.sleep(t5)
+    pyautogui.rightClick()
+    time.sleep(t20)
+    # Click fenetre hdv
+    pyautogui.moveTo(1055, 195)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+
+def go_to_hdv_alchimistes():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 274)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1101, 394)
+    time.sleep(t5)
+    pyautogui.rightClick()
+    time.sleep(t20)
+    pyautogui.press('esc')
+ 
+def go_to_hdv_bijoutiers():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 368)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1367, 416)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_bouchers():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 411)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1058, 665)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_boulangers():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 458)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1246, 453)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_bricoleurs():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 506)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(985, 144)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_bucherons():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 550)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1438, 706)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_cordonniers():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 597)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(948, 198)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_documents():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 643)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1101, 357)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_forgerons():
+    zapi_milice_to_hdv()
+    pyautogui.moveTo(1118, 689)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(986, 453)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_mineurs():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 363)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1133, 549)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_paysans():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 413)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1211, 666)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_pecheurs():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 459)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1214, 337)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_ressources():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 507)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1251, 571)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_runes():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 553)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1704, 336)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_sculpteurs():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 597)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(1401, 374)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+def go_to_hdv_tailleurs():
+    zapi_milice_to_hdv()
+    pyautogui.scroll(-4)
+    time.sleep(t5)
+    pyautogui.moveTo(1118, 644)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.moveTo(756, 608)
+    time.sleep(t5)
+    pyautogui.click()
+    time.sleep(t20)
+    pyautogui.press('esc')
+
+
 def is_pixel_color_255_153_17(y):
     return pyautogui.pixel(658, y) == (255, 153, 17)
 
@@ -33,9 +265,6 @@ def screen_prix_x100(i):
     file_path = f'/home/human1/HDV_V2/Screens/screenshot_r{i}_x100.png'
     take_screenshot(xmin, ymin, xmax, ymax, file_path)
 
-t1 = 0.2
-t2 = 0.1
-
 y_pos = [295, 331, 368, 406, 445, 483, 518, 553, 593, 628, 669, 700]
 y_or = [280, 317, 353, 389, 426, 464, 500, 537, 574, 611, 650, 685]
 
@@ -44,11 +273,11 @@ def extract(start_i=1, start_row=0):
     i = start_i
     rows = y_pos[start_row:]  # start from the requested position
     for y in rows:
-        time.sleep(t2)
-        pyautogui.moveTo(1000, y)
-        time.sleep(t2)
-        pyautogui.click()
         time.sleep(t1)
+        pyautogui.moveTo(1000, y)
+        time.sleep(t1)
+        pyautogui.click()
+        time.sleep(t2)
         screen_nom_ressource(i)
         screen_prix_x1(i)
         screen_prix_x10(i)
@@ -74,9 +303,9 @@ def more():
                 if start_row >= len(y_pos):
                     # nothing left in this page�just do the scroll behavior
                     pyautogui.moveTo(1090, 321)
-                    time.sleep(t2)
+                    time.sleep(t1)
                     pyautogui.scroll(-4)
-                    time.sleep(t2)
+                    time.sleep(t1)
                     continue
                 idx = extract(idx, start_row=start_row)
             else:
@@ -86,9 +315,9 @@ def more():
 
         # scroll after each batch
         pyautogui.moveTo(1090, 321)
-        time.sleep(t2)
+        time.sleep(t1)
         pyautogui.scroll(-4)
-        time.sleep(t2)
+        time.sleep(t1)
 
 if __name__ == "__main__":
     # Clear screenshots directory
@@ -100,4 +329,4 @@ if __name__ == "__main__":
                 os.unlink(file_path)
         except Exception as e:
             print(f"Error: {e}")
-    more()
+    go_to_hdv_alchimistes()
