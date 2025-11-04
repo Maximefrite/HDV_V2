@@ -45,7 +45,6 @@ def go_to_hdv_alchimistes():
     time.sleep(t5)
     pyautogui.rightClick()
     time.sleep(t20)
-    pyautogui.press('esc')
  
 def go_to_hdv_bijoutiers():
     zapi_milice_to_hdv()
@@ -57,7 +56,6 @@ def go_to_hdv_bijoutiers():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_bouchers():
     zapi_milice_to_hdv()
@@ -69,7 +67,6 @@ def go_to_hdv_bouchers():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_boulangers():
     zapi_milice_to_hdv()
@@ -81,7 +78,6 @@ def go_to_hdv_boulangers():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_bricoleurs():
     zapi_milice_to_hdv()
@@ -93,7 +89,6 @@ def go_to_hdv_bricoleurs():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_bucherons():
     zapi_milice_to_hdv()
@@ -105,7 +100,6 @@ def go_to_hdv_bucherons():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_cordonniers():
     zapi_milice_to_hdv()
@@ -117,7 +111,6 @@ def go_to_hdv_cordonniers():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_documents():
     zapi_milice_to_hdv()
@@ -129,7 +122,6 @@ def go_to_hdv_documents():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_forgerons():
     zapi_milice_to_hdv()
@@ -141,7 +133,6 @@ def go_to_hdv_forgerons():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_mineurs():
     zapi_milice_to_hdv()
@@ -155,7 +146,6 @@ def go_to_hdv_mineurs():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_paysans():
     zapi_milice_to_hdv()
@@ -169,7 +159,6 @@ def go_to_hdv_paysans():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_pecheurs():
     zapi_milice_to_hdv()
@@ -183,7 +172,6 @@ def go_to_hdv_pecheurs():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_ressources():
     zapi_milice_to_hdv()
@@ -197,7 +185,6 @@ def go_to_hdv_ressources():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_runes():
     zapi_milice_to_hdv()
@@ -211,7 +198,6 @@ def go_to_hdv_runes():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_sculpteurs():
     zapi_milice_to_hdv()
@@ -225,7 +211,6 @@ def go_to_hdv_sculpteurs():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
 
 def go_to_hdv_tailleurs():
     zapi_milice_to_hdv()
@@ -239,4 +224,3 @@ def go_to_hdv_tailleurs():
     time.sleep(t5)
     pyautogui.click()
     time.sleep(t20)
-    pyautogui.press('esc')
